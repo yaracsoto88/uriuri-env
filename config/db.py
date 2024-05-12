@@ -6,4 +6,4 @@ r=db.store_result()
 def get_user(email, password):
     db.query("""SELECT * FROM user WHERE email='{}' AND password='{}'""".format(email, password))
     r = db.store_result()
-    return r.fetch_row()
+    return r.num_rows()
