@@ -4,8 +4,8 @@ import os
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+import config.db as db
 
-from config.db import get_user
 app = FastAPI()
 origins = ["*"]
 
@@ -22,19 +22,35 @@ app.add_middleware(
 
 @app.get("/")
 async def get_index_html():
-    html_file_path=os.path.join("static", "index.html")
+    html_file_path=os.path.join("static", "login/index.html")
     return FileResponse(html_file_path)
 
 class LoginRequest(BaseModel):
     email: str
     password: str
+    
 @app.post("/login")
 async def login(login_data: LoginRequest):
     email = login_data.email
     password = login_data.password
-    print("llega quisskdsknadsjaskj")
     print(email, password)
-    if get_user(email, password) > 0:
+    
+    if db.get_user(email, password) > 0:
         return {"message": "Login successful"}
     else:
         return {"message": "Login failed"}
+
+
+@app.post("/register")
+async def register(login_data: LoginRequest):
+    email=login_data.email
+    password=login_data.password
+    
+    if db.get_user(email, password) > 0:
+        return {"message": "User already exists"}
+    else:
+        rows = db.create_user(email,password)
+        if (rows>=1):
+            return {"message": "User created"}
+        else:
+            return {"message": "error al crear"}
