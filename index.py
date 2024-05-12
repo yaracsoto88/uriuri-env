@@ -28,7 +28,7 @@ async def get_index_html():
 class LoginRequest(BaseModel):
     email: str
     password: str
-    
+    username: str
 @app.post("/login")
 async def login(login_data: LoginRequest):
     email = login_data.email
@@ -44,13 +44,16 @@ async def login(login_data: LoginRequest):
 @app.post("/register")
 async def register(login_data: LoginRequest):
     email=login_data.email
+    username=login_data.username
     password=login_data.password
     
     if db.get_user(email, password) > 0:
         return {"message": "User already exists"}
     else:
-        rows = db.create_user(email,password)
+        rows = db.create_user(email= email,username= username,password=password)
+        print (rows)
         if (rows>=1):
+            
             return {"message": "User created"}
         else:
             return {"message": "error al crear"}

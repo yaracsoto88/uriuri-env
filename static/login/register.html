@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="static\login\styles.css">
-    <script src="static\login\scripts.js"></script>
-    <title>Register  Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js"></script>
+    <title>Register Page</title>
 </head>
 <body>
     <div class="container">
         <h2>Login</h2>
 
             <div class="form-group">
-                <label for="username">Mail:</label>
+                <label for="username">Username:</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="mail">Mail:</label>
+                <input type="text" id="mail" name="mail" placeholder="Enter your mail">
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password">
             </div>
+
             <div class="form-group">
                 <label for="password">Password confirm:</label>
                 <input type="password" id="passwordconfirm" name="password" placeholder="Enter your password">
@@ -24,9 +29,7 @@
             <div class="form-group">
                 <button onclick="signin()">Create account</button>
             </div>
-            <div class="form-group">
-                <p>Don't have an account? <a href="static\login\register.html">Register</a></p>
-    </div>
+         
 </div>
 </body>
 </html>

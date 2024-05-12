@@ -8,7 +8,10 @@ def get_user(email, password):
     r = db.store_result()
     return r.num_rows()
 
-def create_user(email,password):
-    db.query("""INSERT INTO user (email, password) VALUES ('{}', '{}')""".format(email, password))
-    db.commit()
+def create_user(email,username,password):
+    db.query("""INSERT INTO user (email, username, password) VALUES ('{}','{}','{}')""".format(email,username, password))
+
     return db.affected_rows()
+
+# db.query(""" Delete from user where username ="b";""")
+# user =  create_user("s","b","c")
