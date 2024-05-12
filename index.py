@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 import os
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -24,10 +25,16 @@ async def get_index_html():
     html_file_path=os.path.join("static", "index.html")
     return FileResponse(html_file_path)
 
-@app.post("/login/")
-async def login(email: str, password: str):
-    if (get_user(email, password).fetch_row()>0):
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+@app.post("/login")
+async def login(login_data: LoginRequest):
+    email = login_data.email
+    password = login_data.password
+    print("llega quisskdsknadsjaskj")
+    print(email, password)
+    if get_user(email, password) > 0:
         return {"message": "Login successful"}
     else:
         return {"message": "Login failed"}
-    
