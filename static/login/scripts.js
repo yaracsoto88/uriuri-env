@@ -1,9 +1,6 @@
 function login(){
-    console.log('login');
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
-    console.log(email);
-    console.log(password);
 
     fetch('/login', {
         method: 'POST',
@@ -15,7 +12,7 @@ function login(){
             password: password,
         }),
     })
-    .then(response => console.log(response.json()))
+    .then(response =>manage_login_data(response,email))
     .then(data => console.log(data))
     .catch((error) => {
       console.error('Error:', error);
@@ -68,11 +65,24 @@ function validateEmail(email){
 function manage_register_response(response){
     response.json().then(data => {
         if (data.message == 'User created'){
+            localStorage.setItem('mail',email);
             alert("Usuario creado correctamente");
-            window.location.href = '/chat';
+            window.location.href = 'static/chat/chat.html';
         }else{
             alert("Error al crear el usuario");
         }
     });
 }
+function manage_login_data(response,email){
+    response.json().then(data => {
+        if (data.message == 'Login successful'){
+            localStorage.setItem('email', email);
+            console.log(localStorage.getItem('mail'));
+            alert("Usuario logeado correctamente");
+            window.location.href = 'static/login/chat/chat.html';
 
+        }else{
+            alert("Error al crear el usuario");
+        }
+    });
+}

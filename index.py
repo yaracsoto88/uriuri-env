@@ -1,3 +1,4 @@
+import json
 from fastapi import FastAPI
 from pydantic import BaseModel
 import os
@@ -61,9 +62,17 @@ async def register(login_data: ResgisterRequest):
         else:
             return {"message": "error al crear"}
 
-class User(BaseModel):
-    username: str
 
-@app.get("/friends")
-async def get_friends(username: User):
-    return db.get_friends(username.username)
+class User(BaseModel):
+    email: str
+@app.post("/friends")
+async def get_friends(user: User):
+    data= db.get_friends(user.email)
+    return data
+
+class UserFriend(BaseModel):
+    username: str
+@app.post("/idfriend")
+async def get_idfriend(user: UserFriend):
+    data= db.get_idfriend(user.username)
+    return data
