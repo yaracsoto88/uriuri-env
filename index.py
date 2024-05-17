@@ -26,9 +26,8 @@ async def get_index_html():
     return FileResponse(html_file_path)
 
 class LoginRequest(BaseModel):
-    email: str
     password: str
-    username: str
+    email: str
 @app.post("/login")
 async def login(login_data: LoginRequest):
     email = login_data.email
@@ -41,8 +40,12 @@ async def login(login_data: LoginRequest):
         return {"message": "Login failed"}
 
 
+class ResgisterRequest(BaseModel):
+    email: str
+    password: str
+    username: str
 @app.post("/register")
-async def register(login_data: LoginRequest):
+async def register(login_data: ResgisterRequest):
     email=login_data.email
     username=login_data.username
     password=login_data.password
@@ -57,3 +60,10 @@ async def register(login_data: LoginRequest):
             return {"message": "User created"}
         else:
             return {"message": "error al crear"}
+
+class User(BaseModel):
+    username: str
+
+@app.get("/friends")
+async def get_friends(username: User):
+    return db.get_friends(username.username)
