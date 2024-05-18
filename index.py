@@ -1,5 +1,5 @@
 import json
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 import os
 from fastapi.responses import FileResponse
@@ -33,7 +33,6 @@ class LoginRequest(BaseModel):
 async def login(login_data: LoginRequest):
     email = login_data.email
     password = login_data.password
-    print(email, password)
     
     if db.get_user(email, password) > 0:
         return {"message": "Login successful"}
@@ -55,7 +54,6 @@ async def register(login_data: ResgisterRequest):
         return {"message": "User already exists"}
     else:
         rows = db.create_user(email= email,username= username,password=password)
-        print (rows)
         if (rows>=1):
             
             return {"message": "User created"}
@@ -76,3 +74,12 @@ class UserFriend(BaseModel):
 async def get_idfriend(user: UserFriend):
     data= db.get_idfriend(user.username)
     return data
+
+
+@app.get("/mensajes")
+async def get_messages_endpoint(emailUser: str = Query(...), idfriend: str = Query(...)):
+    print (emailUser, idfriend)
+    messages = db.get_messages(emailUser, idfriend)
+    if not messages:
+        raise HTTPException(status_code=404, detail="No messages found")
+    return messages

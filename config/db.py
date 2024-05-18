@@ -40,4 +40,28 @@ def get_idfriend(username):
     db.query("""SELECT id FROM user WHERE username = '{}'""".format(username))
     r = db.store_result()
     return r.fetch_row(maxrows=0)[0][0].decode('utf-8')
-print (get_idfriend("yara"))
+
+
+def get_idfriend_by_mail(email):
+    db.query("""SELECT id FROM user WHERE email = '{}'""".format(email))
+    r = db.store_result()
+    return r.fetch_row(maxrows=0)[0][0].decode('utf-8')
+
+def get_messages(email_user, idfriend):
+    id_user= get_idfriend_by_mail(email_user)
+    db.query("""
+    SELECT sender_id, message 
+    FROM message
+    WHERE (sender_id = '{}' AND receiver_id = '{}') OR (receiver_id = '{}' AND sender_id = '{}')
+    """.format(id_user, idfriend, id_user, idfriend))
+    r = db.store_result()
+    rows = r.fetch_row(maxrows=0)
+    print (rows)
+    data= [{'sender_id': row[0].decode('utf-8'), 'message': row[1].decode('utf-8')} for row in rows]
+    print(data)
+    return data
+
+
+get_messages("yara@mail.com",2)
+
+# all_messages(1,2)

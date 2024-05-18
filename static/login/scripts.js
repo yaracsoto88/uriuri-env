@@ -67,7 +67,7 @@ function manage_register_response(response){
         if (data.message == 'User created'){
             localStorage.setItem('mail',email);
             alert("Usuario creado correctamente");
-            window.location.href = 'static/chat/chat.html';
+            window.location.href = 'static/friends/friends.html';
         }else{
             alert("Error al crear el usuario");
         }
@@ -79,7 +79,7 @@ function manage_login_data(response,email){
             localStorage.setItem('email', email);
             console.log(localStorage.getItem('mail'));
             alert("Usuario logeado correctamente");
-            window.location.href = 'static/login/chat/chat.html';
+            window.location.href = 'static/friends/friends.html';
 
         }else{
             alert("Error al crear el usuario");

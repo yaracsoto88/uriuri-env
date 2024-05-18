@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" type="text/css" href="chat.css">
+</head>
+    <body>
+        <div id="messages"></div>
+        <script>
+            window.onload = async function () {
+                // Obtener el parámetro 'id' de la URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const id_friend = urlParams.get('id');
+                email= localStorage.getItem('email')
+
+    
+                if (id_friend) {
+                    try {
+                        // Hacer una solicitud para obtener los mensajes
+                        let response = await fetch(`/mensajes?emailUser=${email}&idfriend=${id_friend}`);
+                        if (response.ok) {
+                            let messages = await response.json();
+    
+                            // Crear un contenedor para los mensajes
+                            let messagesDiv = document.getElementById('messages');
+                            messagesDiv.innerHTML = ''; // Limpiar cualquier contenido existente
+    
+                            // Añadir cada mensaje al contenedor
+                            messages.forEach(message => {
+                                let messageElement = document.createElement('p');
+                                messageElement.textContent = message;
+                                messagesDiv.appendChild(messageElement);
+                            });
+                        } else {
+                            console.error('Error fetching messages:', response.statusText);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                } else {
+                    console.error('No ID provided in URL');
+                }
+            }
+        </script>
+</body>
+</html>
