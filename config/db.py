@@ -1,4 +1,5 @@
 from MySQLdb import _mysql
+
 db=_mysql.connect("localhost", "root", "", "chat")
 db.query("""SELECT * FROM user""")
 r=db.store_result()
@@ -62,6 +63,21 @@ def get_messages(email_user, idfriend):
     return data
 
 
-get_messages("yara@mail.com",2)
+# get_messages("yara@mail.com",2)
 
 # all_messages(1,2)
+
+def save_message(email_sender, receiver_id, message):
+    sender_id= get_idfriend_by_mail(email_sender)
+    try: 
+        db.query("START TRANSACTION")
+        db.query("""INSERT INTO message (sender_id, receiver_id, message) VALUES ('{}','{}','{}')""".format(sender_id, receiver_id, message))
+        db.query("COMMIT")
+
+    except _mysql.Error as e:
+    # En caso de error, revertir la transacción
+        print("Error en la transacción:", e)
+        db.query("ROLLBACK")
+    return db.affected_rows()
+
+save_message("yara@mail.com",2,"jijhgfdsdafghj")
