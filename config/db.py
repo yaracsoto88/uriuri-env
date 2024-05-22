@@ -1,8 +1,7 @@
 from MySQLdb import _mysql
 
 db=_mysql.connect("localhost", "root", "", "chat")
-db.query("""SELECT * FROM user""")
-r=db.store_result()
+
 
 def get_user(email, password):
     db.query("""SELECT * FROM user WHERE email='{}' AND password='{}'""".format(email, password))
@@ -80,4 +79,4 @@ def save_message(email_sender, receiver_id, message):
         db.query("ROLLBACK")
     return db.affected_rows()
 
-save_message("yara@mail.com",2,"jijhgfdsdafghj")
+# save_message("yara@mail.com",2,"sdffsfs")

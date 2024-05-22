@@ -108,8 +108,9 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             data = await websocket.receive_text()
             data = json.loads(data)  # convert the string data to JSON
+            db.save_message(data['sender'], data['receiver'], data['message'])
             print(f"Message received from {data['sender']} to {data['receiver']}: {data['message']}")
-            await manager.broadcast(json.dumps(data))  # convert the JSON back to string before sending
+            await manager.broadcast(data['message'])  # convert the JSON back to string before sending
     except WebSocketDisconnect:
         manager.disconnect(websocket)
 

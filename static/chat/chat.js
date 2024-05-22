@@ -21,6 +21,7 @@ window.onload = async function () {
                 var ws = new WebSocket(`ws://${window.location.host}/ws`);
                 ws.onmessage = function(event) {
                     let messageElement = document.createElement('p');
+                    console.log(event);
                     messageElement.textContent = event.data;
                     messagesDiv.appendChild(messageElement);
                 };
