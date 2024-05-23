@@ -78,7 +78,7 @@ function manage_login_data(response, email){
         if (data.message == 'Login successful'){
             localStorage.setItem('email', email);
             console.log(localStorage.getItem('email'));
-            toast
+            TransformStream;
             alert("Usuario logeado correctamente");
             window.location.href = '/static/friends/friends.html';
 
