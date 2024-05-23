@@ -50,7 +50,7 @@ function signin(){
             password: password,
         }),
     })
-    .then(response =>manage_register_response(response))
+    .then(response =>manage_register_response(response, mail))
     .then(data => console.log(data))
     .catch((error) => {
       console.error('Error:', error);
@@ -62,27 +62,28 @@ function validateEmail(email){
     return re.test(email);
 }
 
-function manage_register_response(response){
+function manage_register_response(response, email){
     response.json().then(data => {
         if (data.message == 'User created'){
-            localStorage.setItem('mail',email);
+            localStorage.setItem('email', email);
             alert("Usuario creado correctamente");
-            window.location.href = 'static/friends/friends.html';
+            window.location.href = '/static/friends/friends.html';
         }else{
             alert("Error al crear el usuario");
         }
     });
 }
-function manage_login_data(response,email){
+function manage_login_data(response, email){
     response.json().then(data => {
         if (data.message == 'Login successful'){
             localStorage.setItem('email', email);
-            console.log(localStorage.getItem('mail'));
+            console.log(localStorage.getItem('email'));
+            toast
             alert("Usuario logeado correctamente");
-            window.location.href = 'static/friends/friends.html';
+            window.location.href = '/static/friends/friends.html';
 
         }else{
-            alert("Error al crear el usuario");
+            alert("Error al loggear el usuario");
         }
     });
 }
