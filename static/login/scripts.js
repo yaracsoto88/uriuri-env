@@ -1,3 +1,4 @@
+
 function login(){
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -12,25 +13,26 @@ function login(){
             password: password,
         }),
     })
-    .then(response =>manage_login_data(response,email))
+    .then(response => manage_login_data(response, email))
     .then(data => console.log(data))
     .catch((error) => {
       console.error('Error:', error);
     });
 }
+
 function signin(){
     let username = document.getElementById('username').value;
     let mail = document.getElementById('mail').value;
     let password = document.getElementById('password').value;
     let password_confirmation= document.getElementById('passwordconfirm').value;
         
-    if (password.length<6){
-        alert("la contraseña debe tener minimo 6 caracteres");
+    if (password.length < 6){
+        alert("La contraseña debe tener mínimo 6 caracteres");
         return;
     }
 
-    if(password!= password_confirmation){
-        alert("las contraseñas son diferentes");
+    if (password != password_confirmation){
+        alert("Las contraseñas son diferentes");
         return;
     }
 
@@ -50,7 +52,7 @@ function signin(){
             password: password,
         }),
     })
-    .then(response =>manage_register_response(response, mail))
+    .then(response => manage_register_response(response, mail))
     .then(data => console.log(data))
     .catch((error) => {
       console.error('Error:', error);
@@ -66,23 +68,22 @@ function manage_register_response(response, email){
     response.json().then(data => {
         if (data.message == 'User created'){
             localStorage.setItem('email', email);
-            alert("Usuario creado correctamente");
+            localStorage.setItem('alerta', "Usuario creado correctamente");
             window.location.href = '/static/friends/friends.html';
-        }else{
+        } else {
             alert("Error al crear el usuario");
         }
     });
 }
+
 function manage_login_data(response, email){
     response.json().then(data => {
         if (data.message == 'Login successful'){
             localStorage.setItem('email', email);
             console.log(localStorage.getItem('email'));
-            TransformStream;
-            alert("Usuario logeado correctamente");
+            localStorage.setItem('alerta', "Usuario loggeado correctamente");
             window.location.href = '/static/friends/friends.html';
-
-        }else{
+        } else {
             alert("Error al loggear el usuario");
         }
     });

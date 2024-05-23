@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="scripts_friend.js"></script>
+
     <title>Inicio</title>
 </head>
 <body>
-   <button onclick="get_friend_id('yara')">Logout</button>
+   <button onclick="logout()">Cerrar sesión</button>
+    <button onclick="showaddFriend()">Añadir amigo</button>
+    <div id="addFriend" style="display: none;">
+        <h2>Amigos</h2>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" id="friend" name="friend" placeholder="Introduce el email de tu amigo">
+            <button onclick="addFriend()">Añadir</button>s
+        </div>
+        </div>
 <div class="container" id = "friends">
-
  </div>   
 </body>
 </html>

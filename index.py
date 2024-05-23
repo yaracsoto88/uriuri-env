@@ -114,3 +114,15 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
 
+class Friend(BaseModel):
+    email: str
+    friend: str
+    
+@app.post("/addfriend")
+async def add_friend(emails : Friend):
+    print (emails)
+    data = db.add_friend(emails.email, emails.friend)
+    if data ==-1:
+        return {"message": "Error adding friend"}
+    else:
+        return {"message": "Friend added"}

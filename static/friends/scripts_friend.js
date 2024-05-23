@@ -1,5 +1,4 @@
 window.onload = function () {
-
     let email = localStorage.getItem('email')
     console.log(email)
     fetch('/friends', {
@@ -15,6 +14,7 @@ window.onload = function () {
         .catch((error) => {
             console.error('Error:', error);
         });
+        loadAlert();
 }
 
 async function manage_friends_response(response) {
@@ -81,4 +81,56 @@ async function get_friend_id(username) {
     }
 }
 
+function loadAlert() {
+    
+    let alert = localStorage.getItem('alerta')
+    console.log(alert)
+    if (alert == null) {
+        return
+    }
+    Toastify({
+        text: alert,
+        duration: 3000,
+        backgroundColor: "#00FF00"
+    }).showToast();
+    localStorage.removeItem('alerta')
+}
 
+function logout() {
+    localStorage.removeItem('email');
+    window.location.href = '/static/login/index.html';
+}
+
+
+function showaddFriend() {
+    document.getElementById('addFriend').style.display = 'block';
+}
+
+async function addFriend() {
+    let email = localStorage.getItem('email')
+    let friend = document.getElementById('friend').value
+    console.log(friend)
+    console.log(email)
+    fetch('/addfriend', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: email,
+            friend: friend,
+        }),
+    })
+        .then(response => manage_add_friends_response(response))
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+function manage_add_friends_response(response) {
+    response.json().then(data => {
+        console.log(data)
+        localStorage.setItem('alerta', data.message);
+        window.location.href = '/static/friends/friends.html';
+    });
+}

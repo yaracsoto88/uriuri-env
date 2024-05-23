@@ -80,3 +80,29 @@ def save_message(email_sender, receiver_id, message):
     return db.affected_rows()
 
 # save_message("yara@mail.com",2,"sdffsfs")
+
+
+def exists_friend(email_user, email_friend):
+    id_user= get_idfriend_by_mail(email_user)
+    id_friend= get_idfriend_by_mail(email_friend)
+    db.query("""SELECT * FROM userfriend WHERE user_id='{}' AND friend_id='{}'""".format(id_user, id_friend))
+    r = db.store_result()
+    return r.num_rows()
+
+def add_friend(email_user, email_friend):
+    id_user= get_idfriend_by_mail(email_user)
+    id_friend= get_idfriend_by_mail(email_friend)
+    if exists_friend(email_user, email_friend) > 0:
+        return -1
+    try: 
+        db.query("START TRANSACTION")
+        db.query("""INSERT INTO userfriend (user_id, friend_id) VALUES ('{}','{}')""".format(id_user, id_friend))
+        db.query("COMMIT")
+
+    except _mysql.Error as e:
+        print("Error en la transacción:", e)
+        db.query("ROLLBACK")
+    return db.affected_rows()
+    # En caso de error, revertir la transacción
+    
+# add_friend("michael@mail.com","yara@mail.com")
