@@ -121,8 +121,13 @@ class Friend(BaseModel):
 @app.post("/addfriend")
 async def add_friend(emails : Friend):
     print (emails)
-    data = db.add_friend(emails.email, emails.friend)
+    data = db.send_friend_request(emails.email, emails.friend)
     if data ==-1:
-        return {"message": "Error adding friend"}
+        return {"message": "Error al enviar la petición de amistad"}
     else:
-        return {"message": "Friend added"}
+        return {"message": "Petición de amistad solicitada"}
+    
+
+@app.post("/friend_request")
+async def friend_requests(email: User):
+    return db.get_friend_request(email.email)

@@ -2,15 +2,29 @@
 <html>
 <head>
     <title>Chat</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="chat.css">
     <script src="chat.js"></script>
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+    </style>
 </head>
 <body>
-    <h1>WebSocket Chat</h1>
-    <form action="" onsubmit="sendMessage(event)">
-        <input type="text" id="messageText" autocomplete="off"/>
-        <button>Send</button>
-    </form>
-    <div id="messages"></div>
+    <section class="section has-background-success">
+        <div class="container">
+            <h1 class="title">WebSocket Chat</h1>
+            <form action="" class="field" onsubmit="sendMessage(event)">
+                <div class="control is-expanded">
+                    <input class="input" type="text" id="messageText" autocomplete="off" placeholder="Type your message here">
+                </div>
+                <div class="control">
+                    <button class="button is-danger">Enviar</button>
+                </div>
+            </form>
+            <div id="messages" class="box"></div>
+        </div>
+    </section>
 </body>
 </html>

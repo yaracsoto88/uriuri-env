@@ -1,4 +1,3 @@
-
 function login(){
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -84,7 +83,7 @@ function manage_login_data(response, email){
             localStorage.setItem('alerta', "Usuario loggeado correctamente");
             window.location.href = '/static/friends/friends.html';
         } else {
-            alert("Error al loggear el usuario");
+            
         }
     });
 }

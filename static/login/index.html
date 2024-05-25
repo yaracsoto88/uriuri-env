@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
+    >
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" href="/static/login/styles.css">
@@ -9,22 +13,38 @@
     <title>Login Page</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" placeholder="Enter your email">
+    <section class="hero is-fullheight is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-4-desktop">
+                        <div class="box">
+                            <h2 class="title has-text-centered has-text-white">Login</h2>
+                            <div class="field">
+                                <label class="label" for="email">Email</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="email" name="email" placeholder="Enter your email">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="password">Password</label>
+                                <div class="control">
+                                    <input class="input" type="password" id="password" name="password" placeholder="Enter your password">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-primary is-fullwidth" onclick="login()">Login</button>
+                                </div>
+                            </div>
+                            <div class="field has-text-centered">
+                                <p>Don't have an account? <a href="/static/login/register.html">Register</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password">
-        </div>
-        <div class="form-group">
-            <button onclick="login()">Login</button>
-        </div>
-        <div class="form-group">
-            <p>Don't have an account? <a href="/static/login/register.html">Register</a></p>
-        </div>
-    </div>
+    </section>
 </body>
 </html>
