@@ -131,3 +131,21 @@ async def add_friend(emails : Friend):
 @app.post("/friend_request")
 async def friend_requests(email: User):
     return db.get_friend_request(email.email)
+
+class FriendRequest(BaseModel):
+    email: str
+    friend: str
+    accept: bool
+@app.post("/accept_friend")
+async def accept_friend(friends: FriendRequest):
+    if friends.accept:
+        if db.accept_friend_request(friends.email, friends.friend)>=0:
+            return {"message": "Amigo añadido correctamente"}
+        else:
+            return {"message": "Error al aceptar la petición"}
+    else:
+        if db.deny_friend_request(friends.email,friends.friend)>=0:
+            return {"message": "Petición de amigo rechazada"}
+        else:
+            return {"message": "Error al rechazar la petición"}
+    

@@ -149,13 +149,19 @@ def get_friend_request(email_user):
 # send_friend_request("yara@mail.com", "michael@mail.com")
 # print(exists_friend( "michael@mail.com","yara@mail.com"))
 
-def accept_friend_request(email_user, email_friend):
+def get_id_friend_by_username(username):
+    db.query("""SELECT id FROM user WHERE username = '{}'""".format(username))
+    r = db.store_result()
+    return r.fetch_row(maxrows=0)[0][0].decode('utf-8')
+
+
+def accept_friend_request(email_user, friend):
     id_user = get_idfriend_by_mail(email_user)
-    id_friend = get_idfriend_by_mail(email_friend)
+    id_friend = get_idfriend_by_mail(friend)
     try: 
         db.query("START TRANSACTION")
         db.query("""INSERT INTO userfriend (user_id, friend_id) VALUES ('{}','{}')""".format(id_user, id_friend))
-        db.query("""DELETE FROM friend_request WHERE sender_id='{}' AND receiver_id='{}'""".format(id_user, id_friend))
+        db.query("""DELETE FROM friend_request WHERE sender_id='{}' AND receiver_id='{}'""".format( id_friend, id_user))
         db.query("COMMIT")
 
     except _mysql.Error as e:
@@ -165,9 +171,9 @@ def accept_friend_request(email_user, email_friend):
 
 # accept_friend_request("yara@mail.com", "michael@mail.com")
 
-def deny_friend_request(email_user, email_friend):
+def deny_friend_request(email_user, friend):
     id_user = get_idfriend_by_mail(email_user)
-    id_friend = get_idfriend_by_mail(email_friend)
+    id_friend = get_idfriend_by_mail(friend)
     try: 
         db.query("START TRANSACTION")
         db.query("""DELETE FROM friend_request WHERE sender_id='{}' AND receiver_id='{}'""".format(id_friend, id_user))
@@ -178,4 +184,4 @@ def deny_friend_request(email_user, email_friend):
         db.query("ROLLBACK")
     return db.affected_rows()
 
-deny_friend_request("aa@mail.com", "yara@mail.com")
+# deny_friend_request("aa@mail.com", "yara@mail.com")

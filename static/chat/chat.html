@@ -15,14 +15,14 @@
     <section class="section has-background-success">
         <div class="container">
             <h1 class="title">WebSocket Chat</h1>
-            <form action="" class="field" onsubmit="sendMessage(event)">
+            <div class="field">
                 <div class="control is-expanded">
                     <input class="input" type="text" id="messageText" autocomplete="off" placeholder="Type your message here">
                 </div>
                 <div class="control">
-                    <button class="button is-danger">Enviar</button>
+                    <button class="button is-danger" onclick="sendMessage(event)">Enviar</button>
                 </div>
-            </form>
+            </div>
             <div id="messages" class="box"></div>
         </div>
     </section>

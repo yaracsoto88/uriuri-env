@@ -77,35 +77,88 @@ async function get_friend_request(email) {
         }),
     })
     .then(response => {
-        manage_friend_requests_response(response);
+        manage_friend_accept_response(response);
     })
     .catch((error) => {
         console.error('Error:', error);
     });
 }
 
-async function manage_friend_requests_response(response){
+async function manage_friend_accept_response(response) {
     try {
         let data = await response.json();
         let friendRequestContainer = document.getElementById('friend_request');
         friendRequestContainer.innerHTML = '';
-        console.log("----------------------")
-        console.log(data)
-        console.log(data.size)
-        if (data.length == 0){
-            let box_container= document.getElementById("box_requests");
+
+        if (data.length == 0) {
+            let box_container = document.getElementById("box_requests");
             box_container.style.display = "none";
-            return
+            return;
         }
+
         for (let friend of data) {
             let friendRequest = document.createElement('div');
             friendRequest.classList.add("notification", "is-info");
-            friendRequest.innerHTML = friend;
+
+            // Create a span to hold the friend name
+            let friendName = document.createElement('span');
+            friendName.innerHTML = friend;
+            friendRequest.appendChild(friendName);
+
+            // Create a container for the buttons
+            let buttonContainer = document.createElement('div');
+            buttonContainer.classList.add('buttons', 'ml-2');
+
+            // Create accept button
+            let acceptButton = document.createElement('button');
+            acceptButton.innerHTML = 'Aceptar';
+            acceptButton.classList.add('button', 'is-success', 'is-small');
+            acceptButton.addEventListener('click', () => handleFriendRequest(friend, true));
+            buttonContainer.appendChild(acceptButton);
+
+            // Create reject button
+            let rejectButton = document.createElement('button');
+            rejectButton.innerHTML = 'Rechazar';
+            rejectButton.classList.add('button', 'is-danger', 'is-small', 'ml-2');
+            rejectButton.addEventListener('click', () => handleFriendRequest(friend, false));
+            buttonContainer.appendChild(rejectButton);
+
+            friendRequest.appendChild(buttonContainer);
             friendRequestContainer.appendChild(friendRequest);
         }
     } catch (error) {
         console.error('Error:', error);
     }
+}
+
+function handleFriendRequest(friend, isAccepted) {
+    console.log(`${isAccepted ? 'Accepted' : 'Rejected'} friend request from ${friend}`);
+    fetch('/accept_friend', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: localStorage.getItem('email'),
+            friend: friend,
+            accept: isAccepted
+        }),
+    })
+    .then(response => {
+        manage_friends_request_response(response);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+function manage_friends_request_response(response){
+    response.json().then(data => {
+        console.log(data);
+        localStorage.setItem('alerta', data.message);
+        window.location.href = '/static/friends/friends.html';
+    });
+    
 }
 
 async function get_friend_id(username) {
