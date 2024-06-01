@@ -79,40 +79,45 @@ async def get_idfriend(user: UserFriend):
 @app.get("/mensajes")
 async def get_messages_endpoint(emailUser: str = Query(...), idfriend: str = Query(...)):
     messages = db.get_messages(emailUser, idfriend)
-    if not messages:
-        raise HTTPException(status_code=404, detail="No messages found")
     return messages
 
 # WebSocket chat
 class ConnectionManager:
     def __init__(self):
-        self.active_connections: List[WebSocket] = []
+        self.active_connections: Dict[str, WebSocket] = {}  # Change to a dictionary
 
-    async def connect(self, websocket: WebSocket):
+    async def connect(self, websocket: WebSocket, user_id: str):  # Accept user_id parameter
         await websocket.accept()
-        self.active_connections.append(websocket)
+        self.active_connections[user_id] = websocket  # Store websocket with associated user_id
 
-    def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
+    def disconnect(self, user_id: str):  # Accept user_id parameter
+        self.active_connections.pop(user_id, None)  # Remove the user's websocket
 
-    async def broadcast(self, message: str):
-        for connection in self.active_connections:
-            await connection.send_text(message)
-
+    async def send_message(self, message: str, receiver: str):  # Accept receiver parameter
+        print(f"Sending message to {receiver}: {message}" )
+        receiver_socket = self.active_connections.get(receiver)
+        if receiver_socket:
+            await receiver_socket.send_text(message)
+            
 manager = ConnectionManager()
 
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await manager.connect(websocket)
+@app.websocket("/ws/{user_id}")
+async def websocket_endpoint(websocket: WebSocket, user_id: str):
+    
+    await manager.connect(websocket, db.get_idfriend_by_mail(user_id))
     try:
         while True:
             data = await websocket.receive_text()
             data = json.loads(data)  # convert the string data to JSON
             db.save_message(data['sender'], data['receiver'], data['message'])
             print(f"Message received from {data['sender']} to {data['receiver']}: {data['message']}")
-            await manager.broadcast(data['message'])  # convert the JSON back to string before sending
+            try:
+                await manager.send_message(data['message'], data['receiver'])
+            except Exception as e:
+                print(f"Error sending message: {e}")
+                
     except WebSocketDisconnect:
-        manager.disconnect(websocket)
+        manager.disconnect(user_id)  # disconnect using the user_id
 
 class Friend(BaseModel):
     email: str

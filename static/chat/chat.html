@@ -2,28 +2,54 @@
 <html>
 <head>
     <title>Chat</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="chat.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <script src="chat.js"></script>
     <style>
-        body {
-            background-color: #f5f5f5;
-        }
+        .message {
+    max-width: 70%;
+    margin: 5px;
+}
+
+.message.is-primary {
+    align-self: flex-end; /* Aligns messages sent by the user to the right */
+}
+
+.message.is-info {
+    align-self: flex-start; /* Aligns messages received to the left */
+}
+
+#messages {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 400px; /* Set your desired height for the messages container */
+}
+
     </style>
 </head>
 <body>
-    <section class="section has-background-success">
-        <div class="container">
-            <h1 class="title">WebSocket Chat</h1>
-            <div class="field">
-                <div class="control is-expanded">
-                    <input class="input" type="text" id="messageText" autocomplete="off" placeholder="Type your message here">
+    <section class="hero is-fullheight is-success">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title has-text-white">WebSocket Chat</h1>
+                <div class="box">
+                    <h2 class="title is-4 has-text-white">Messages</h2>
+                    <div id="messages" class="content"></div>
                 </div>
-                <div class="control">
-                    <button class="button is-danger" onclick="sendMessage(event)">Enviar</button>
+                <div class="box">
+                    <form action="" onsubmit="sendMessage(event)">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input class="input" type="text" id="messageText" autocomplete="off" placeholder="Type your message here..."/>
+                            </div>
+                            <div class="control">
+                                <button class="button is-primary">Send</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div id="messages" class="box"></div>
         </div>
     </section>
 </body>
