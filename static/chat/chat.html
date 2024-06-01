@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Chat</title>
+    <link rel="icon" type="image/png" href="static\img\icons8-chat-96.png">
     <link rel="stylesheet" type="text/css" href="chat.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <script src="chat.js"></script>
     <style>
         .message {
-    max-width: 70%;
-    margin: 5px;
-}
+            max-width: 70%;
+            margin: 5px;
+        }
 
-.message.is-primary {
-    align-self: flex-end; /* Aligns messages sent by the user to the right */
-}
+        .message.is-primary {
+            align-self: flex-end;
+        }
 
-.message.is-info {
-    align-self: flex-start; /* Aligns messages received to the left */
-}
+        .message.is-info {
+            align-self: flex-start;
+            
+        }
 
-#messages {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    height: 400px; /* Set your desired height for the messages container */
-}
-
+        #messages {
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            height: 400px;
+            
+        }
     </style>
 </head>
+
 <body>
     <section class="hero is-fullheight is-success">
         <div class="hero-body">
@@ -41,7 +45,8 @@
                     <form action="" onsubmit="sendMessage(event)">
                         <div class="field has-addons">
                             <div class="control is-expanded">
-                                <input class="input" type="text" id="messageText" autocomplete="off" placeholder="Type your message here..."/>
+                                <input class="input" type="text" id="messageText" autocomplete="off"
+                                    placeholder="Type your message here..." />
                             </div>
                             <div class="control">
                                 <button class="button is-primary">Send</button>
@@ -53,4 +58,5 @@
         </div>
     </section>
 </body>
+
 </html>
