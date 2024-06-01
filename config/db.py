@@ -185,3 +185,8 @@ def deny_friend_request(email_user, friend):
     return db.affected_rows()
 
 # deny_friend_request("aa@mail.com", "yara@mail.com")
+def get_name(id):
+    db.query("""SELECT username FROM user WHERE id = '{}'""".format(id))
+    r = db.store_result()
+    return r.fetch_row(maxrows=0)[0][0].decode('utf-8')
+# print(get_name(2))

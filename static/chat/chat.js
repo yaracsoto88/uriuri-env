@@ -5,6 +5,22 @@ window.onload = async function () {
     
     if (id_friend) {
         try {
+            let responseName = await fetch(`/get_name`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: id_friend,
+                }),
+            });
+
+            if (responseName.ok) {
+                let friendData = await responseName.json();
+                document.getElementById('titleName').textContent = friendData;
+            } else {
+                console.error('Error fetching friend name:', responseName.statusText);
+            } 
             let response = await fetch(`/mensajes?emailUser=${email}&idfriend=${id_friend}`);
             if (response.ok) {
                 let messages = await response.json();
@@ -30,7 +46,7 @@ window.onload = async function () {
                 var ws = new WebSocket(`ws://${window.location.host}/ws/${email}`);
                 ws.onmessage = function(event) {
                     let messageElement = document.createElement('article');
-                    messageElement.classList.add('message', 'is-small', 'is-info');
+                    messageElement.classList.add('message', 'is-info');
 
                     let messageBody = document.createElement('div');
                     messageBody.classList.add('message-body');
@@ -44,9 +60,11 @@ window.onload = async function () {
 
                 document.querySelector('form').onsubmit = function(event) {
                     let input = document.getElementById('messageText');
-                    // if (input.value.trim() === '') {
-                    //     return; // Exit if input is empty or only whitespace
-                    // }
+                    if (input.value.trim() === '') {
+                        input.value = '';
+                        event.preventDefault();
+                        return;
+                    }
                     let messageElement = document.createElement('article');
                     messageElement.classList.add('message', 'is-primary');
 

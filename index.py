@@ -154,3 +154,9 @@ async def accept_friend(friends: FriendRequest):
         else:
             return {"message": "Error al rechazar la petición"}
     
+@app.post("/get_name")
+async def get_name(username: UserFriend):
+    return db.get_name(username.username)
+
+
+    
