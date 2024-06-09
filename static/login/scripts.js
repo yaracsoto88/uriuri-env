@@ -86,3 +86,4 @@ function manage_login_data(response, email) {
         }
     });
 }
+//     }

@@ -11,50 +11,44 @@ window.onload = function () {
             email: email,
         }),
     })
-    .then(response => {
-        manage_friends_response(response);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+        .then(response => {
+            manage_friends_response(response);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     loadAlert();
-	get_friend_request(email);
+    get_friend_request(email);
 }
 
 async function manage_friends_response(response) {
     try {
         let data = await response.json();
-        // Crear una tabla con Bulma
         let table = document.createElement("table");
         table.classList.add("table", "is-fullwidth", "is-bordered", "is-striped", "is-hoverable");
 
-        // Crear el cuerpo de la tabla
         let tbody = document.createElement("tbody");
 
-        // Añadir cada amigo como una nueva fila en la tabla
         for (let friend of data) {
             let row = document.createElement("tr");
             let td = document.createElement("td");
-            td.classList.add("has-text-centered", "has-background-light"); // Fondo claro y texto centrado para las celdas
-            // Obtener ID del amigo
-            console.log(friend);
+            td.classList.add("has-text-centered", "has-background-light"); 
+            
             let id_amigo = await get_friend_id(friend);
             console.log(id_amigo);
-            // Crear un enlace y establecer su href
+
             let a = document.createElement("a");
             a.href = "/static/chat/chat.html?id=" + id_amigo;
             console.log("/static/chat/chat.html?id=" + id_amigo)
             a.innerHTML = friend;
-            a.classList.add("has-text-link", "has-text-weight-bold"); // Enlace estilizado con color de enlace y texto en negrita
+            a.classList.add("has-text-link", "has-text-weight-bold");
 
-            // Agregar el enlace a la celda
             td.appendChild(a);
             row.appendChild(td);
             tbody.appendChild(row);
         }
         table.appendChild(tbody);
 
-        // Añadir la tabla al elemento 'friends' en el DOM
         let friendsContainer = document.getElementById('friends');
         friendsContainer.innerHTML = '';
         friendsContainer.appendChild(table);
@@ -74,12 +68,12 @@ async function get_friend_request(email) {
             email: email,
         }),
     })
-    .then(response => {
-        manage_friend_accept_response(response);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+        .then(response => {
+            manage_friend_accept_response(response);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 async function manage_friend_accept_response(response) {
@@ -98,23 +92,19 @@ async function manage_friend_accept_response(response) {
             let friendRequest = document.createElement('div');
             friendRequest.classList.add("notification", "is-info");
 
-            // Create a span to hold the friend name
             let friendName = document.createElement('span');
             friendName.innerHTML = friend;
             friendRequest.appendChild(friendName);
 
-            // Create a container for the buttons
             let buttonContainer = document.createElement('div');
             buttonContainer.classList.add('buttons', 'ml-2');
 
-            // Create accept button
             let acceptButton = document.createElement('button');
             acceptButton.innerHTML = 'Aceptar';
             acceptButton.classList.add('button', 'is-success', 'is-small');
             acceptButton.addEventListener('click', () => handleFriendRequest(friend, true));
             buttonContainer.appendChild(acceptButton);
 
-            // Create reject button
             let rejectButton = document.createElement('button');
             rejectButton.innerHTML = 'Rechazar';
             rejectButton.classList.add('button', 'is-danger', 'is-small', 'ml-2');
@@ -142,21 +132,21 @@ function handleFriendRequest(friend, isAccepted) {
             accept: isAccepted
         }),
     })
-    .then(response => {
-        manage_friends_request_response(response);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+        .then(response => {
+            manage_friends_request_response(response);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
-function manage_friends_request_response(response){
+function manage_friends_request_response(response) {
     response.json().then(data => {
         console.log(data);
         localStorage.setItem('alerta', data.message);
         window.location.href = '/static/friends/friends.html';
     });
-    
+
 }
 
 async function get_friend_id(username) {
@@ -172,7 +162,7 @@ async function get_friend_id(username) {
         });
         let data = await response.json();
         console.log(data);
-        return data;  
+        return data;
     } catch (error) {
         console.error('Error:', error);
     }
@@ -218,13 +208,13 @@ async function addFriend() {
             friend: friend,
         }),
     })
-    .then(response => manage_add_friends_response(response))
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+        .then(response => manage_add_friends_response(response))
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
- async function manage_add_friends_response(response) {
+async function manage_add_friends_response(response) {
     response.json().then(data => {
         console.log(data);
         localStorage.setItem('alerta', data.message);

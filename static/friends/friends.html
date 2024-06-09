@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="icon" type="image/png" href="\static\img\icons8-chat-96.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
@@ -10,6 +11,7 @@
 
     <title>Inicio</title>
 </head>
+
 <body>
     <section class="hero is-fullheight is-success">
         <div class="hero-body">
@@ -19,11 +21,12 @@
                     <button class="button is-link" onclick="showaddFriend()">Añadir amigo</button>
                 </div>
                 <div id="addFriend" style="display: none;" class="box">
-                    <h2 class="title is-4">Añadir amigo</h2>
+                    <h2 class="title is-4 has-text-white">Añadir amigo</h2>
                     <div class="field">
                         <label class="label" for="email">Email:</label>
                         <div class="control">
-                            <input class="input" type="text" id="friend" name="friend" placeholder="Introduce el email de tu amigo">
+                            <input class="input" type="text" id="friend" name="friend"
+                                placeholder="Introduce el email de tu amigo">
                         </div>
                         <div class="control">
                             <button class="button is-success" onclick="addFriend()">Añadir</button>
@@ -42,4 +45,5 @@
         </div>
     </section>
 </body>
+
 </html>

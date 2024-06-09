@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="icon" type="image/png" href="\static\img\icons8-chat-96.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
@@ -8,8 +9,9 @@
     <link rel="stylesheet" href="/static/login/styles.css">
     <script src="/static/login/scripts.js" defer></script>
 
-    <title>Login Page</title>
+    <title>Inicio de sesión</title>
 </head>
+
 <body>
     <section class="hero is-fullheight is-primary">
         <div class="hero-body">
@@ -17,26 +19,31 @@
                 <div class="columns is-centered">
                     <div class="column is-4-desktop">
                         <div class="box">
+                            <div class="has-text-centered">
+                                <img src="\static\img\icons8-chat-96.png" alt="logo imagen">
+                            </div>
                             <h2 class="title has-text-centered has-text-white">Login</h2>
                             <div class="field">
                                 <label class="label" for="email">Email</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="email" name="email" placeholder="Enter your email">
+                                    <input class="input" type="text" id="email" name="email"
+                                        placeholder="Inserte el email">
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label" for="password">Password</label>
+                                <label class="label" for="password">Contraseña</label>
                                 <div class="control">
-                                    <input class="input" type="password" id="password" name="password" placeholder="Enter your password">
+                                    <input class="input" type="password" id="password" name="password"
+                                        placeholder="Inserte la contraseña">
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="control">
-                                    <button class="button is-primary is-fullwidth" onclick="login()">Login</button>
+                                    <button class="button is-primary is-fullwidth" onclick="login()">Acceder</button>
                                 </div>
                             </div>
                             <div class="field has-text-centered">
-                                <p>Don't have an account? <a href="/static/login/register.html">Register</a></p>
+                                <p>¿Quieres registrarte? <a href="/static/login/register.html">Regístrate</a></p>
                             </div>
                         </div>
                     </div>
@@ -45,4 +52,5 @@
         </div>
     </section>
 </body>
+
 </html>

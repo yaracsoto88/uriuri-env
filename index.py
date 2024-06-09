@@ -1,6 +1,6 @@
 import json
 import os
-from typing import List
+from typing import Dict
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -14,7 +14,6 @@ origins = ["*"]
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Allow CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -84,16 +83,16 @@ async def get_messages_endpoint(emailUser: str = Query(...), idfriend: str = Que
 # WebSocket chat
 class ConnectionManager:
     def __init__(self):
-        self.active_connections: Dict[str, WebSocket] = {}  # Change to a dictionary
+        self.active_connections: Dict[str, WebSocket] = {}  
 
-    async def connect(self, websocket: WebSocket, user_id: str):  # Accept user_id parameter
+    async def connect(self, websocket: WebSocket, user_id: str):  
         await websocket.accept()
-        self.active_connections[user_id] = websocket  # Store websocket with associated user_id
+        self.active_connections[user_id] = websocket  
 
-    def disconnect(self, user_id: str):  # Accept user_id parameter
-        self.active_connections.pop(user_id, None)  # Remove the user's websocket
+    def disconnect(self, user_id: str): 
+        self.active_connections.pop(user_id, None)  
 
-    async def send_message(self, message: str, receiver: str):  # Accept receiver parameter
+    async def send_message(self, message: str, receiver: str):  
         print(f"Sending message to {receiver}: {message}" )
         receiver_socket = self.active_connections.get(receiver)
         if receiver_socket:
@@ -108,7 +107,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
     try:
         while True:
             data = await websocket.receive_text()
-            data = json.loads(data)  # convert the string data to JSON
+            data = json.loads(data)  
             db.save_message(data['sender'], data['receiver'], data['message'])
             print(f"Message received from {data['sender']} to {data['receiver']}: {data['message']}")
             try:
@@ -117,7 +116,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
                 print(f"Error sending message: {e}")
                 
     except WebSocketDisconnect:
-        manager.disconnect(user_id)  # disconnect using the user_id
+        manager.disconnect(user_id) 
 
 class Friend(BaseModel):
     email: str
@@ -132,7 +131,6 @@ async def add_friend(emails : Friend):
     else:
         return {"message": "Petición de amistad solicitada"}
     
-
 @app.post("/friend_request")
 async def friend_requests(email: User):
     return db.get_friend_request(email.email)
@@ -141,6 +139,7 @@ class FriendRequest(BaseModel):
     email: str
     friend: str
     accept: bool
+    
 @app.post("/accept_friend")
 async def accept_friend(friends: FriendRequest):
     if friends.accept:

@@ -2,7 +2,6 @@ from MySQLdb import _mysql
 
 db=_mysql.connect("localhost", "root", "", "chat")
 
-
 def get_user(email, password):
     db.query("""SELECT * FROM user WHERE email='{}' AND password='{}'""".format(email, password))
     r = db.store_result()
@@ -40,7 +39,6 @@ def get_idfriend(username):
     r = db.store_result()
     return r.fetch_row(maxrows=0)[0][0].decode('utf-8')
 
-
 def get_idfriend_by_mail(email):
     db.query("""SELECT id FROM user WHERE email = '{}'""".format(email))
     r = db.store_result()
@@ -61,10 +59,6 @@ def get_messages(email_user, idfriend):
     return data
 
 
-# get_messages("yara@mail.com",2)
-
-# all_messages(1,2)
-
 def save_message(email_sender, receiver_id, message):
     sender_id= get_idfriend_by_mail(email_sender)
     try: 
@@ -73,12 +67,9 @@ def save_message(email_sender, receiver_id, message):
         db.query("COMMIT")
 
     except _mysql.Error as e:
-    # En caso de error, revertir la transacción
         print("Error en la transacción:", e)
         db.query("ROLLBACK")
     return db.affected_rows()
-
-# save_message("yara@mail.com",2,"sdffsfs")
 
 def exists_friend(email_user, email_friend):
     id_user= get_idfriend_by_mail(email_user)
@@ -101,7 +92,6 @@ def add_friend(email_user, email_friend):
         print("Error en la transacción:", e)
         db.query("ROLLBACK")
     return db.affected_rows()
-    # En caso de error, revertir la transacción
     
 # add_friend("michael@mail.com","yara@mail.com")
 def exists_friend_request(email_user, email_friend):
@@ -138,9 +128,7 @@ def get_friend_request(email_user):
     r = db.store_result()
     rows = r.fetch_row(maxrows=0)
     
-    # Collect all emails from the fetched rows
     emails = [row[0].decode('utf-8') for row in rows]
-    
     return emails
 
 # print(get_friend_request("yara@mail.com"))
@@ -187,4 +175,3 @@ def get_name(id):
     db.query("""SELECT username FROM user WHERE id = '{}'""".format(id))
     r = db.store_result()
     return r.fetch_row(maxrows=0)[0][0].decode('utf-8')
-# print(get_name(2))
