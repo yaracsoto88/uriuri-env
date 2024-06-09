@@ -11,8 +11,6 @@ def create_user(email,username,password):
     db.query("""INSERT INTO user (email, username, password) VALUES ('{}','{}','{}')""".format(email,username, password))
     return db.affected_rows()
 
-# db.query(""" Delete from user where username ="b";""")
-# user =  create_user("s","b","c")
 def get_friends(email):
     db.query("""
     SELECT friend.username 
@@ -31,8 +29,6 @@ def get_friends(email):
     rows = r.fetch_row(maxrows=0)
 
     return [row[0].decode('utf-8') for row in rows]
-
-# print ( get_friends("michael@mail.com"))
 
 def get_idfriend(username):
     db.query("""SELECT id FROM user WHERE username = '{}'""".format(username))
@@ -57,7 +53,6 @@ def get_messages(email_user, idfriend):
     data= [{'sender_id': row[0].decode('utf-8'), 'message': row[1].decode('utf-8')} for row in rows]
     print(data)
     return data
-
 
 def save_message(email_sender, receiver_id, message):
     sender_id= get_idfriend_by_mail(email_sender)
@@ -93,7 +88,6 @@ def add_friend(email_user, email_friend):
         db.query("ROLLBACK")
     return db.affected_rows()
     
-# add_friend("michael@mail.com","yara@mail.com")
 def exists_friend_request(email_user, email_friend):
     id_user= get_idfriend_by_mail(email_user)
     id_friend= get_idfriend_by_mail(email_friend)
@@ -131,15 +125,10 @@ def get_friend_request(email_user):
     emails = [row[0].decode('utf-8') for row in rows]
     return emails
 
-# print(get_friend_request("yara@mail.com"))
-# send_friend_request("yara@mail.com", "michael@mail.com")
-# print(exists_friend( "michael@mail.com","yara@mail.com"))
-
 def get_id_friend_by_username(username):
     db.query("""SELECT id FROM user WHERE username = '{}'""".format(username))
     r = db.store_result()
     return r.fetch_row(maxrows=0)[0][0].decode('utf-8')
-
 
 def accept_friend_request(email_user, friend):
     id_user = get_idfriend_by_mail(email_user)
@@ -155,7 +144,6 @@ def accept_friend_request(email_user, friend):
         db.query("ROLLBACK")
     return db.affected_rows()
 
-# accept_friend_request("yara@mail.com", "michael@mail.com")
 
 def deny_friend_request(email_user, friend):
     id_user = get_idfriend_by_mail(email_user)
@@ -170,7 +158,6 @@ def deny_friend_request(email_user, friend):
         db.query("ROLLBACK")
     return db.affected_rows()
 
-# deny_friend_request("aa@mail.com", "yara@mail.com")
 def get_name(id):
     db.query("""SELECT username FROM user WHERE id = '{}'""".format(id))
     r = db.store_result()
