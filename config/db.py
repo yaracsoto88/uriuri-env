@@ -10,7 +10,6 @@ def get_user(email, password):
 
 def create_user(email,username,password):
     db.query("""INSERT INTO user (email, username, password) VALUES ('{}','{}','{}')""".format(email,username, password))
-
     return db.affected_rows()
 
 # db.query(""" Delete from user where username ="b";""")
@@ -126,7 +125,6 @@ def send_friend_request(email_user, email_friend):
         print("Error en la transacción:", e)
         db.query("ROLLBACK")
     return db.affected_rows()
-    # En caso de error, revertir la transacción
 
 def get_friend_request(email_user):
     id_user = get_idfriend_by_mail(email_user)

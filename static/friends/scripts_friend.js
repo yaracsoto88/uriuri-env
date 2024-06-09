@@ -64,8 +64,6 @@ async function manage_friends_response(response) {
 }
 
 
-
-
 async function get_friend_request(email) {
     fetch('/friend_request', {
         method: 'POST',
