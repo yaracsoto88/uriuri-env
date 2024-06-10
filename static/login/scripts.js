@@ -83,7 +83,25 @@ function manage_login_data(response, email) {
             localStorage.setItem('alerta', "Usuario loggeado correctamente");
             window.location.href = '/static/friends/friends.html';
         } else {
+            localStorage.setItem('alerta', "Usuario o contraseña incorrectos");
+            loadAlert();
         }
     });
+}
+
+function loadAlert() {
+    let alert = localStorage.getItem('alerta');
+    console.log(alert);
+    if (alert == null) {
+        return;
+    }
+    Toastify({
+        text: alert,
+        duration: 3000,
+        style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)"
+        }
+    }).showToast();
+    localStorage.removeItem('alerta');
 }
 //     }
