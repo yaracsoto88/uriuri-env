@@ -1,3 +1,7 @@
+window.onload = function () {
+    loadAlert();
+}
+
 function login() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -104,4 +108,3 @@ function loadAlert() {
     }).showToast();
     localStorage.removeItem('alerta');
 }
-//     }

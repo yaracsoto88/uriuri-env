@@ -94,3 +94,12 @@ window.onload = async function () {
         console.error('No ID provided in URL');
     }
 }
+function logout() {
+    localStorage.removeItem('email');
+    localStorage.setItem('alerta', "Sesión cerrada correctamente");
+    window.location.href = '/static/login/index.html';
+}
+
+function back_friends() {
+    window.history.back();
+}

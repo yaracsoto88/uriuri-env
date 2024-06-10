@@ -186,6 +186,7 @@ function loadAlert() {
 
 function logout() {
     localStorage.removeItem('email');
+    localStorage.setItem('alerta', "Sesión cerrada correctamente");
     window.location.href = '/static/login/index.html';
 }
 
